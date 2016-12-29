@@ -17,14 +17,15 @@ private:
 };
 
 // with inheritance
+template <class C>
 class Base
 {
 public:
     template <typename F>
-    auto run(F f) { return bind(f, this)(); }
+    auto run(F f) { return bind(f, static_cast<C*>(this))(); }
 };
 
-class Derived : public Base
+class Derived : public Base<Derived>
 {
 public:
     Derived(const string& name) : name_(name) {}
