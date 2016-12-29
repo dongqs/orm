@@ -18,11 +18,12 @@ private:
 
 // with inheritance
 template <class C>
-class Base
+class Base : public enable_shared_from_this<C>
 {
 public:
     template <typename F>
-    auto run(F f) { return bind(f, static_cast<C*>(this))(); }
+    auto run(F f) { return bind(f, C::shared_from_this())(); }
+    //auto run(F f) { return bind(f, static_cast<C*>(this))(); }
 };
 
 class Derived : public Base<Derived>
